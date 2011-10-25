@@ -27,3 +27,8 @@
   (other-window 1))
 (global-set-key (kbd "C-t") 'other-window-or-split)
 
+;; 画面分割を行いfollow-modeにする
+(global-set-key (kbd "C-c z") 'follow-delete-other-windows-and-split)
+
+;; anything-for-files
+(global-set-key (kbd "C-x b") 'anything-for-files)

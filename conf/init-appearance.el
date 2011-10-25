@@ -32,3 +32,7 @@
 
 ;; リージョンに色をつける
 (transient-mark-mode t)
+
+;; 物理行でのカーソル移動(デフォルト t)
+;; (setq line-move-visual nil)
+

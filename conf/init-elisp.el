@@ -34,17 +34,6 @@
 (setq uniquify-ignore-buffers-re "*[^*]+*")
 
 
-;;;TODO anythingでいらなくなる？バッファ移動の際、わけわからないからいやだな。
-;;; 部分一致でバッファの移動
-(iswitchb-mode 1)
-;; バッファ読み取り関数を iswitchb にする
-(setq read-buffer-function 'iswitchb-read-buffer)
-;; 部分文字列の代わりに正規表現を使う場合は t に設定する
-;;(setq iswitchb-regexp nil)
-;; 新しいバッファを作成するときにいちいち聞いてこない
-;; (setq iswitchb-prompt-newbuffer nil)
-
-
 ;;; 自動保存。保存=バージョン管理と考える
 ;;; install-elisp http://homepage3.nifty.com/oatu/emacs/archives/auto-save-buffers.el
 ;;; Original http://Oxcc.net/misc/auto-save/auto-save/auto-save-buffers.el
@@ -56,3 +45,4 @@
 ;;; magit http://philjackson.github.com/magit/index.html
 ;;; バージョン1.0になって、公式が移動している模様
 (require 'magit)
+

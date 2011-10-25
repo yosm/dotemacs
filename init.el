@@ -23,7 +23,7 @@
 ;; 言語別minor_mode
 ;(load "init-coffee")
 
-;(load "init-anything")
+(load "init-anything")
 
 
 ;;; This was installed by package-install.el.
