@@ -51,3 +51,8 @@
 ;; 文字コードがEUC-JPなので、インストール時に文字コードの変換を行うこと
 (require 'auto-save-buffers)
 (run-with-idle-timer 2 t 'auto-save-buffers) ; アイドル2秒で保存
+
+
+;;; magit http://philjackson.github.com/magit/index.html
+;;; バージョン1.0になって、公式が移動している模様
+(require 'magit)
