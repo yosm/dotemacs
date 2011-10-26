@@ -13,25 +13,15 @@
 ;; pathに追加
 (add-to-list 'exec-path "/usr/local/bin")
 
+;; エラー回避
+(defvar org-directory "")
+
 
 ;; confファイル
 (load "init-general")
 (load "init-elisp")
 (load "init-appearance")
 (load "init-key")
-
-;; 言語別minor_mode
-;(load "init-coffee")
+(load "init-language")
 
 (load "init-anything")
-
-
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs.
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
-  (package-initialize))

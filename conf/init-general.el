@@ -25,6 +25,9 @@
 ;; インデントはスペースで
 (setq-default indent-tabs-mode nil)
 
+;; インデントはスペース２つが基準
+(setq-default tab-width 2)
+
 ;; 分割したウィンドウでも折り返し
 ;; C-x 3した時も折り返されるようになる
 (setq truncate-partial-width-windows nil)
@@ -53,7 +56,7 @@
 (setq message-log-max 10000)
 
 ;; ミニバッファを再帰的に呼び出せるようにする
-(setq enable-recursive-minibuffers t)
+(setq enable-recursive-minibuffers nil)
 
 ;; ダイアログボックスを使わないようにする
 (setq use-dialog-box nil)
