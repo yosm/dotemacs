@@ -11,12 +11,12 @@
   (defvar rails-root nil))
 
 (defun current-buffer-rails-root ()
-;;   (let ((rails-project-root (locate-dominating-file default-directory "Gemfile")))
-;;     (when (and rails-project-root
-;;                (file-exists-p (concat rails-project-root "config/application.rb")))
-;;       rails-project-root)))
+  (let ((rails-project-root (locate-dominating-file default-directory "Gemfile")))
+    (when (and rails-project-root
+               (file-exists-p (concat rails-project-root "config/application.rb")))
+      (expand-file-name rails-project-root))))
 
-  (expand-file-name (locate-dominating-file "/Users/yoshimi/projects/sis/jasa/api/trunk/" "Gemfile")))
+;  (expand-file-name (locate-dominating-file "/Users/yoshimi/projects/sis/jasa/api/trunk/" "Gemfile")))
 ;  (expand-file-name (locate-dominating-file "/Users/yoshimi/projects/tag_diary/" "Gemfile")))
 
 (defun rails-dirs (root dirs)
@@ -24,123 +24,29 @@
              (mapcar (lambda (x) (concat root x)) dirs )
              " "))
 
+(defun rails-c-make-displayable-names (path &optional dir)
+  (mapcar
+   (lambda (f)
+     (cons
+      (replace-regexp-in-string
+       (concat "^" rails-root "\\(" (mapconcat 'identity dir "\\|") "\\)?/?")
+       (lambda (s) (if (> (length s) (length rails-root)) "\\1 : " "/"))
+       f)
+      f))
+   path))
 
-;; (defvar rails-controller-directories
-;;   (list "app/controllers"))
-;; (defvar rails-model-directories
-;;   (list "app/models"))
-;; (defvar rails-view-directories
-;;   (list "app/views"))
-;; (defvar rails-helper-directories
-;;   (list "app/helpers"))
-;; (defvar rails-config-directories
-;;   (list "config"))
-;; (defvar rails-spec-directories
-;;   (list "spec"))
-;; (defvar rails-db-directories
-;;   (list "db"))
-;; (defvar rails-asset-directories
-;;   (list "app/assets/javascripts" "app/assets/stylesheets"))
-;; (defvar rails-lib-directories
-;;   (list "lib"))
 
 (defvar rails-project-directories
   (list "app" "config" "spec" "db" "lib"))
 
 (defvar omit-rails-project-directory-name
   (list
-   "app/controllers"
-   "app/models"
-   "app/views"
-   "app/helpers"
-   "app/assets"
-   "app"
+   "app/controllers" "app/models" "app/views" "app/helpers" "app/assets" "app/mailer" "app"
    "config"
-   "db/migrate"
-   "db"
-   "spec/controllers"
-   "spec/models"
-   "spec/views"
-   "spec/helpers"
-   "spec"
+   "db/migrate" "db"
+   "spec/controllers" "spec/models" "spec/views" "spec/helpers" "spec"
    "lib"))
 
-;; (defun rails-controller-files ()
-;;   (when rails-root
-;;     (split-string
-;;      (shell-command-to-string
-;;       (concat "find " (rails-dirs rails-root rails-controller-directories)
-;;               " "
-;;               (find-to-string `(or (name "*_controller.rb"))))))))
-
-
-;; (defun rails-view-files ()
-;;   (when rails-root
-;;     (split-string
-;;      (shell-command-to-string
-;;       (concat "find " (rails-dirs rails-root rails-view-directories)
-;;               " "
-;;               (find-to-string `(or (name "*.erb"))))))))
-
-
-;; (defun rails-model-files ()
-;;   (when rails-root
-;;     (split-string
-;;      (shell-command-to-string
-;;       (concat "find " (rails-dirs rails-root rails-model-directories)
-;;               " "
-;;               (find-to-string `(or (name "*.rb"))))))))
-
-
-;; (defun rails-helper-files ()
-;;   (when rails-root
-;;     (split-string
-;;      (shell-command-to-string
-;;       (concat "find " (rails-dirs rails-root rails-helper-directories)
-;;               " "
-;;               (find-to-string `(or (name "*_helper.rb"))))))))
-
-
-;; (defun rails-config-files ()
-;;   (when rails-root
-;;     (split-string
-;;      (shell-command-to-string
-;;       (concat "find " (rails-dirs rails-root rails-config-directories)
-;;               " "
-;;               (find-to-string `(or (name "*.rb" "*.yml"))))))))
-
-;; (defun rails-spec-files ()
-;;   (when rails-root
-;;     (split-string
-;;      (shell-command-to-string
-;;       (concat "find " (rails-dirs rails-root rails-spec-directories)
-;;               " "
-;;               (find-to-string `(or (name "*.rb"))))))))
-
-;; (defun rails-db-files ()
-;;   (when rails-root
-;;     (split-string
-;;      (shell-command-to-string
-;;       (concat "find " (rails-dirs rails-root rails-db-directories)
-;;               " "
-;;               (find-to-string `(or (name "*.rb"))))))))
-
-;; (defun rails-asset-files ()
-;;   (when rails-root
-;;     (split-string
-;;      (shell-command-to-string
-;;       (concat "find " (rails-dirs rails-root rails-asset-directories)
-;;               " "
-;;               (find-to-string `(or (name "*.js*" "*.css*")))
-;;               " -print 2> /dev/null")))))
-
-;; (defun rails-lib-files ()
-;;   (when rails-root
-;;     (split-string
-;;      (shell-command-to-string
-;;       (concat "find " (rails-dirs rails-root rails-lib-directories)
-;;               " "
-;;               (find-to-string `(or (name "*.rb"))))))))
 
 (defun rails-project-files ()
   (when rails-root
@@ -148,9 +54,7 @@
      (shell-command-to-string
       (concat "find " (rails-dirs rails-root rails-project-directories)
               " "
-              (find-to-string `(or (name "*.rb" "*.js*" "*.css*" "*.yml"))))))))
-
-
+              (find-to-string `(or (name "*.rb" "*.erb" "*.js*" "*.css*" "*.yml"))))))))
 
 (defun current-rails-recentf ()
   (when rails-root
@@ -158,87 +62,49 @@
           when (string-match rails-root f)
           collect f)))
 
+(defun rails-file-type (file)
+  (cond
+   ((string-match "/app/views/\\([a-zA-Z0-9_]+\\)/" file) "views")
+   ((string-match "/app/controllers/.*/\\([a-zA-Z0-9_]+\\)_controller" file) "controllers")
+   ((string-match "/app/models/" file) "models")
+   ((string-match "/config/" file) "config")
+   ((string-match "/spec/\\([a-zA-Z0-9_]+\\)/" file) (concat "spec-" (match-string 1 file)))
+   ((string-match "/app/helpers/" file) "helper")
+   ((string-match "/app/mailers/" file) "mailer")
+   ((string-match "/app/\\([a-zA-Z0-9_]+\\)/" file) (match-string 1 file))
+   (t "misc file")))
+
+(defun controller-to-views (file)
+  (replace-regexp-in-string "/controllers/\\(.*\\)_controller.rb" "/views/\\1" file))
+(defun controller-to-helper (file)
+  (replace-regexp-in-string "/controllers/\\(.*\\)_controller.rb" "/helpers/\\1_helper.rb" file))
+(defun file-to-spec (file)
+  (replace-regexp-in-string "/app/\\(.*\\).rb" "/spec/\\1_spec.rb" file))
+(defun spec-to-file (file)
+  (replace-regexp-in-string "/spec/\\(.*\\)_spec.rb" "/app/\\1.rb" file))
+(defun view-to-controller (file)
+  (replace-regexp-in-string "/views/\\(.*\\)/.*.erb" "/controllers/\\1_controller.rb" file))
 
 
 (defun rails-current-actions ()
   (with-current-buffer anything-current-buffer
-    (let ((actions (list))
-          (dir (file-name-directory buffer-file-name))
-          (name (file-name-nondirectory buffer-file-name)))
-      (add-to-list 'actions (cons rails-root "/Users/yoshimi/projects/tag_diary/config/environments/production.rb"))
-      (add-to-list 'actions (cons dir dir))
-      (add-to-list 'actions (cons name buffer-file-name)))))
+    (let ((actions ())
+          (file buffer-file-name)
+          (type (rails-file-type buffer-file-name)))
+      (cond ((equal type "controllers")
+             (add-to-list 'actions (cons "helper" (controller-to-helper file)))
+             (add-to-list 'actions (cons "views" (controller-to-views file)))
+             (add-to-list 'actions (cons "spec" (file-to-spec file))))
+            ((equal type "models")
+             (add-to-list 'actions (cons "spec" (file-to-spec file))))
+            ((equal type "views")
+             (add-to-list 'actions (cons "controller" (view-to-controller file))))
+            ((equal type "spec-controllers")
+             (add-to-list 'actions (cons "controller" (spec-to-file file))))
+            ((equal type "spec-models")
+             (add-to-list 'actions (cons "model" (spec-to-file file))))
+             ))))
 
-(defun displayable-prefix (path prefix)
-  (if (> (length path) (length rails-root))
-      (concat prefix " : ")
-    ""))
-
-(defun rails-c-make-displayable-names (path &optional dir)
-  (mapcar
-   (lambda (f)
-     (cons
-      (replace-regexp-in-string
-       (concat "^" rails-root "\\(" (mapconcat 'identity dir "\\|") "\\)?/?")
-       (lambda (s) (displayable-prefix s "\\1"))
-       f)
-      f))
-   path))
-
-
-;; (defvar anything-c-source-rails-controller-files
-;;   '((name . "Controller")
-;;     (candidates . (lambda () (rails-controller-files)))
-;;     (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands "/app/controllers/")))
-;;     (type . file)))
-
-;; (defvar anything-c-source-rails-view-files
-;;   '((name . "View")
-;;     (candidates . (lambda () (rails-view-files)))
-;;     (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands "/app/views/")))
-;;     (type . file)))
-
-;; (defvar anything-c-source-rails-model-files
-;;   '((name . "Model")
-;;     (candidates . (lambda () (rails-model-files)))
-;;     (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands "/app/models/")))
-;;     (type . file)))
-
-;; (defvar anything-c-source-rails-helper-files
-;;   '((name . "Helper")
-;;     (candidates . (lambda () (rails-helper-files)))
-;;     (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands "/app/helpers/")))
-;;     (type . file)))
-
-;; (defvar anything-c-source-rails-config-files
-;;   '((name . "Config")
-;;     (candidates . (lambda () (rails-config-files)))
-;;     (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands "/config/")))
-;;     (type . file)))
-
-;; (defvar anything-c-source-rails-spec-files
-;;   '((name . "Spec")
-;;     (candidates . (lambda () (rails-spec-files)))
-;;     (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands "/spec/")))
-;;     (type . file)))
-
-;; (defvar anything-c-source-rails-db-files
-;;   '((name . "DB")
-;;     (candidates . (lambda () (rails-db-files)))
-;;     (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands "/db/")))
-;;     (type . file)))
-
-;; (defvar anything-c-source-rails-asset-files
-;;   '((name . "Asset")
-;;     (candidates . (lambda () (rails-asset-files)))
-;;     (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands "/assets/")))
-;;     (type . file)))
-
-;; (defvar anything-c-source-rails-lib-files
-;;   '((name . "Lib")
-;;     (candidates . (lambda () (rails-lib-files)))
-;;     (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands "/lib/")))
-;;     (type . file)))
 
 (defvar anything-c-source-rails-project-files
   '((name . "Project")
@@ -258,6 +124,7 @@
     (candidates . (lambda () (rails-current-actions)))
     (type . file)))
 
+
 (defun anything-of-rails ()
   (interactive)
   (let ((rails-root (current-buffer-rails-root)))
@@ -265,22 +132,7 @@
                          anything-c-source-rails-current-project-recentf
                          anything-c-source-rails-project-files)
               :prompt "Anything Of Rails: "
-              :resume "noresume"
               :buffer "*anything-for-rails*")))
-
-    ;; (anything-other-buffer '(anything-c-source-rails-current-actions
-    ;;                          anything-c-source-rails-current-project-recentf
-    ;;                          anything-c-source-rails-project-files)
-    ;;                          anything-c-source-rails-controller-files
-    ;;                          anything-c-source-rails-view-files
-    ;;                          anything-c-source-rails-model-files
-    ;;                          anything-c-source-rails-lib-files
-    ;;                          anything-c-source-rails-config-files
-    ;;                          anything-c-source-rails-spec-files
-    ;;                          anything-c-source-rails-db-files
-    ;;                          anything-c-source-rails-asset-files
-    ;;                          anything-c-source-rails-helper-files)
-    ;;                     "*anything-for-rails*")))
 
 
 (provide 'anything-of-rails)
