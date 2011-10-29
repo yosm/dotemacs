@@ -81,4 +81,3 @@
 ;; yesと入力するのは面倒なのでyで十分
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-

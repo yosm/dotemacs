@@ -7,7 +7,7 @@
     (let ((actions (list))
           (dir (file-name-directory buffer-file-name))
           (name (file-name-nondirectory buffer-file-name)))
-      (push (cons current-rails-root "/Users/yoshimi/projects/tag_diary/config/environments/production.rb") actions)
+      (push (cons rails-root "/Users/yoshimi/projects/tag_diary/config/environments/production.rb") actions)
       (push (cons dir dir) actions)
       (push (cons name buffer-file-name) actions))))
 

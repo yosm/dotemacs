@@ -47,3 +47,10 @@
 (require 'magit)
 
 
+;;; recentf-ext導入
+(require 'recentf-ext)
+;; 履歴を保存する件数を設定
+(setq recentf-max-saved-items 500)
+;; 最近使ったファイルに含めないファイルを正規表現で指定
+;(setq recentf-exclude '("/TAGS$" "/var/tmp/"))
+

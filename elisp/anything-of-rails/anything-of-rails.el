@@ -13,7 +13,7 @@
 
 (defun anything-of-rails ()
   (interactive)
-  (let ((current-rails-root (current-buffer-rails-root)))
+  (let ((rails-root (current-buffer-rails-root)))
     (anything-other-buffer '(anything-c-source-rails-current-actions
                              anything-c-source-rails-controller-files
                              anything-c-source-rails-model-files
