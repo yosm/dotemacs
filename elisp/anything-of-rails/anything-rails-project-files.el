@@ -1,4 +1,5 @@
 ;; Original : https://github.com/wolfmanjm/anything-on-rails
+(require 'rails)
 (require 'find-cmd)
 
 (defvar rails-directories
@@ -35,15 +36,22 @@
       (concat type ": " name))))
 
 
-(defun rails-controller-files ()
+(defun rails-project-files ()
   "Returns a list of all files found under the rails project."
 
-  (let ((rails-root (rails-root)))
-    (when (rails-root)
+  ;; find root of project return empty list if not a rails project
+  (let ((rails-project-root (rails-root)))
+    (when rails-project-root
+      ;; get a list of all the relevant files
       (let ((rails-project-files-list (split-string
                                        (shell-command-to-string
-                                        (concat "find " (rails-dirs rails-project-root) " "
-                                                (find-to-string `(or (name "_controller.rb"))))))))
+                                        (concat "find " (rails-dirs rails-project-root)
+                                                " "
+                                                (find-to-string
+                                                 '(prune (name ".svn" ".git")))
+                                                " "
+                                                (find-to-string
+                                                 `(or (name "*.rb" "*.haml" "*.erb" "*.yml"))))))))
 
         ;; convert the list into cons pair of (display . filepath) where
         ;; display is a friendly name
@@ -52,7 +60,10 @@
            (cons (rails-make-displayable-name f) f)) rails-project-files-list)))))
 
 
-(defvar anything-c-source-rails-controller-files
-  '((name . "Files in Rails Controller")
-    (candidates . (lambda () (rails-controller-files)))
+
+(defvar anything-c-source-rails-project-files
+  '((name . "Files in Rails Project")
+    (candidates . (lambda () (rails-project-files)))
     (type . file)))
+
+(provide 'anything-rails-project-files)

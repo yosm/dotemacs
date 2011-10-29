@@ -32,3 +32,11 @@
 
 ;; anything-for-files
 (global-set-key (kbd "C-x b") 'anything-for-files)
+(global-set-key (kbd "C-x C-b") 'anything-for-files)
+
+
+;; eval-current-buffer
+(global-set-key (kbd "C-l") 'eval-current-buffer)
+
+;; anything-of-rails
+(global-set-key (kbd "C-;") 'anything-of-rails)

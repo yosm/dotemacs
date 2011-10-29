@@ -13,9 +13,6 @@
 ;; pathに追加
 (add-to-list 'exec-path "/usr/local/bin")
 
-;; エラー回避
-(defvar org-directory "")
-
 
 ;; confファイル
 (load "init-general")
