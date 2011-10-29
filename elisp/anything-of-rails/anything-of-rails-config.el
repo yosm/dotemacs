@@ -1,8 +1,4 @@
-;;; anything-of-rails.el --- minor mode with anything for editing RubyOnRails code
-
-;; Copyright (C) 2011 Kazuya Yoshimi <kazuya dot yoshimi at gmail dot com>
-
-(require 'anything)
+(require 'rails)
 (require 'find-cmd)
 
 (eval-when-compile
@@ -10,21 +6,6 @@
   (defvar recentf-list nil)
   (defvar anything-current-buffer nil)
   (defvar rails-root nil))
-
-;; (defun current-buffer-rails-root ()
-;;   (let ((rails-project-root (locate-dominating-file default-directory "Gemfile")))
-;;     (when (and rails-project-root
-;;                (file-exists-p (concat rails-project-root "config/application.rb")))
-;;       rails-project-root)))
-
-(defun current-buffer-rails-root ()
-  (expand-file-name (locate-dominating-file "/Users/yoshimi/projects/tag_diary/" "Gemfile")))
-
-
-(defun rails-dirs (root dirs)
-  (mapconcat (lambda (x) (if (file-directory-p x) x "" ))
-             (mapcar (lambda (x) (concat root x)) dirs )
-             " "))
 
 
 (defvar rails-controller-directories
@@ -190,19 +171,5 @@
     (candidates . (lambda () (rails-current-actions)))
     (type . file)))
 
-(defun anything-of-rails ()
-  (interactive)
-  (let ((rails-root (current-buffer-rails-root)))
-    (anything-other-buffer '(anything-c-source-rails-current-actions
-                             anything-c-source-rails-current-project-recentf
-                             anything-c-source-rails-controller-files
-                             anything-c-source-rails-model-files
-                             anything-c-source-rails-config-files
-                             anything-c-source-rails-spec-files
-                             anything-c-source-rails-db-files
-                             anything-c-source-rails-asset-files
-                             anything-c-source-rails-helper-files)
-                           "*anything-for-rails*")))
 
-
-(provide 'anything-of-rails)
+(provide 'anything-of-rails-config)
