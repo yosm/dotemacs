@@ -16,8 +16,6 @@
                (file-exists-p (concat rails-project-root "config/application.rb")))
       (expand-file-name rails-project-root))))
 
-;  (expand-file-name (locate-dominating-file "/Users/yoshimi/projects/sis/jasa/api/trunk/" "Gemfile")))
-;  (expand-file-name (locate-dominating-file "/Users/yoshimi/projects/tag_diary/" "Gemfile")))
 
 (defun rails-dirs (root dirs)
   (mapconcat (lambda (x) (if (file-directory-p x) x "" ))
