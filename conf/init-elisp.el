@@ -1,5 +1,9 @@
 ;; 専用のファイルを作るまでもない小規模なもの用
 
+;; エラー回避
+;; (eval-when-compile
+;;   (defvar org-directory ""))
+
 
 ;;; http://www.emacswiki.org/emacs/download/auto-install.el
 (require 'auto-install)
@@ -54,3 +58,11 @@
 ;; 最近使ったファイルに含めないファイルを正規表現で指定
 ;(setq recentf-exclude '("/TAGS$" "/var/tmp/"))
 
+
+;;; anything
+;;; auto-install-batch anything
+(require 'anything-startup)
+
+;;; rails
+;;; https://github.com/yosm/anything-of-rails
+(require 'rails)

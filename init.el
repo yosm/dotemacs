@@ -20,5 +20,3 @@
 (load "init-appearance")
 (load "init-key")
 (load "init-language")
-
-(load "init-anything")
