@@ -1,0 +1,3 @@
+[submodule "elisp/anything-of-rails"]
+	path = elisp/anything-of-rails
+	url = git@github.com:yosm/emacs_anything-of-rails.git
