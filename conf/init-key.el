@@ -2,6 +2,16 @@
 (setq ns-command-modifier (quote meta))
 (setq ns-alternate-modifier (quote super))
 
+;; バックスラッシュを入力できるように
+(define-key global-map [165] nil)
+(define-key global-map [67109029] nil)
+(define-key global-map [134217893] nil)
+(define-key global-map [201326757] nil)
+(define-key function-key-map [165] [?\\])
+(define-key function-key-map [67109029] [?\C-\\])
+(define-key function-key-map [134217893] [?\M-\\])
+(define-key function-key-map [201326757] [?\C-\M-\\])
+
 ;; 行数を表示する
 ;(global-set-key "\M-n" 'linum-mode)
 
@@ -38,5 +48,3 @@
 ;; eval-current-buffer
 (global-set-key (kbd "C-l") 'eval-current-buffer)
 
-;; anything-of-rails
-(global-set-key (kbd "C-;") 'anything-of-rails)

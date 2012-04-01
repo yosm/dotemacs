@@ -13,7 +13,6 @@
 ;; pathに追加
 (add-to-list 'exec-path "/usr/local/bin")
 
-
 ;; confファイル
 (load "init-general")
 (load "init-elisp")
