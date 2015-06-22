@@ -7,6 +7,15 @@
                   'append)
 (add-to-list 'default-frame-alist '(font . "fontset-menlokakugo"))
 
+;; color
+(set-foreground-color "azure1")
+(set-background-color "black")
+(set-cursor-color "DarkGray")
+
+;; 初期サイズ
+(add-to-list 'default-frame-alist '(height . 60))
+(add-to-list 'default-frame-alist '(width . 202))
+
 ;; 透過
 (set-frame-parameter (selected-frame) 'alpha '(90 90))
 
@@ -19,11 +28,6 @@
 ;; mark 領域に色付け
 (setq transient-mark-mode t)
 
-;; color
-(set-foreground-color "azure1")
-(set-background-color "black")
-(set-cursor-color "DarkGray")
-
 ;; 現在行に色をつける
 (global-hl-line-mode 0)
 ;; 現在行の色
@@ -35,4 +39,7 @@
 
 ;; 物理行でのカーソル移動(デフォルト t)
 ;; (setq line-move-visual nil)
+
+;; フルスクリーンモード
+(setq ns-use-native-fullscreen nil)
 

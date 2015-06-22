@@ -22,7 +22,8 @@
 (global-set-key (kbd "C-x ?") 'help-command)
 
 ;; fullscreen
-(global-set-key (kbd "M-F") 'ns-toggle-fullscreen)
+;;(global-set-key (kbd "M-F") 'toggle-frame-maximized)
+(global-set-key (kbd "M-F") 'toggle-frame-fullscreen)
 
 
 ;; Ctrl-zでカーソルのある行を画面最上部にもってくる
@@ -40,11 +41,9 @@
 ;; 画面分割を行いfollow-modeにする
 (global-set-key (kbd "C-c z") 'follow-delete-other-windows-and-split)
 
-;; anything-for-files
-(global-set-key (kbd "C-x b") 'anything-for-files)
-(global-set-key (kbd "C-x C-b") 'anything-for-files)
-
-
 ;; eval-current-buffer
 (global-set-key (kbd "C-l") 'eval-current-buffer)
 
+
+;; プロジェクト内にいない場合にプロジェクト一覧を表示する
+(global-set-key (kbd "C-;") 'helm-projectile-switch-project)

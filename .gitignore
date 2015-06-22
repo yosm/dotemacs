@@ -1,4 +1,11 @@
 /history
+/places
 *.elc
 /auto-save-list
 /tmp
+/elpa
+.DS_Store
+/auto-install
+/recentf*
+/ac-comphist.dat
+/projectile-bookmarks.eld
